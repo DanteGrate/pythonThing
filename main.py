@@ -48,7 +48,7 @@ audio = {
 }
 
 for key, sound in audio.items():
-    sound.set_volume(0.5)
+    sound.set_volume(0.1)
 
 def playSound(sound):
     if sound == "exp":
@@ -100,6 +100,9 @@ teams = {
         "score" : 0,
     },
 }
+
+midX = window_screen.get_width()/2
+midY = window_screen.get_height()/2
 
 
 
@@ -183,7 +186,7 @@ class Bullet:
 class Plane:
     def __init__(self, team):
         self.x = teams[team]["spawnX"] + random.randint(-30, 30)
-        self.y = random.randint(0, 1080)
+        self.y = random.randint(0, midY*2)
 
         self.team = team
         self.speed = random.randint(100, 150)
@@ -250,7 +253,7 @@ class Plane:
                     self.target = None
         
         if self.target:
-            distToMid = math.sqrt((self.x - 960)**2 + (self.y - 540)**2)
+            distToMid = math.sqrt((self.x - midX)**2 + (self.y - midY)**2)
             
             # Original target position
             tx = planeList[self.target].x
@@ -262,8 +265,8 @@ class Plane:
                 blend = min((distToMid - 500) / 500, 1)  # Capped at 1
 
                 # Blend target position towards the center
-                tx = (1 - blend) * tx + blend * 960
-                ty = (1 - blend) * ty + blend * 540
+                tx = (1 - blend) * tx + blend * midX
+                ty = (1 - blend) * ty + blend * midY
 
                 self.targetx = tx
                 self.targety = ty
@@ -296,7 +299,7 @@ class Plane:
             #diff = (target_angle - current_angle + 180) % 360 - 180
             if self.target and planeList[self.target].team != self.team and abs(self.angle- math.degrees(self.targeta)+ 180)%360 - 180 < 45:
                 
-                distToMid = math.sqrt((self.x - 960)**2 + (self.y - 540)**2)
+                distToMid = math.sqrt((self.x - midX)**2 + (self.y - midY)**2)
                 
                 # Original target position
                 tx = planeList[self.target].x
@@ -393,9 +396,9 @@ while running:
         # draw the score
         scoreText = font.render( str(teams["blue"]["score"]) + " - " + str(teams["red"]["score"]), True, (1,1,1))
 
-        pygame.draw.rect(window_screen, (128, 128, 128), (960 - scoreText.get_width()/2 - 25, 540 - scoreText.get_height()/2, scoreText.get_width() + 50, scoreText.get_height()), border_radius=20)
+        pygame.draw.rect(window_screen, (128, 128, 128), (midX - scoreText.get_width()/2 - 25, midY - scoreText.get_height()/2, scoreText.get_width() + 50, scoreText.get_height()), border_radius=20)
 
-        window_screen.blit(scoreText, (960 - scoreText.get_width()/2, 540 - scoreText.get_height()/2))
+        window_screen.blit(scoreText, (midX - scoreText.get_width()/2, midY - scoreText.get_height()/2))
 
     #  Checking for the update in the display
     pygame.display.update()
