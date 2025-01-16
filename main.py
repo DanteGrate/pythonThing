@@ -245,6 +245,7 @@ class Plane:
         if self.targetChangeTimer <= 0:
             #pick a new target
             self.target = random.randint(0, len(planeList)-1)
+
             self.targetChangeTimer = random.randint(0, 50)/10 + 3
         else:
             #remove dead target
@@ -252,7 +253,7 @@ class Plane:
                 if len(planeList)-1 < self.target or planeList[self.target].health <= 0:
                     self.target = None
         
-        if self.target:
+        if self.target != None:
             distToMid = math.sqrt((self.x - midX)**2 + (self.y - midY)**2)
             
             # Original target position
@@ -297,7 +298,7 @@ class Plane:
         #shooting
         if self.reloadTimer < 0:
             #diff = (target_angle - current_angle + 180) % 360 - 180
-            if self.target and planeList[self.target].team != self.team and abs(self.angle- math.degrees(self.targeta)+ 180)%360 - 180 < 45:
+            if self.target != None and planeList[self.target].team != self.team and abs(self.angle- math.degrees(self.targeta)+ 180)%360 - 180 < 45:
                 
                 distToMid = math.sqrt((self.x - midX)**2 + (self.y - midY)**2)
                 
