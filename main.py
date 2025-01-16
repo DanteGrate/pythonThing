@@ -365,13 +365,24 @@ while running:
     dt = clock.tick(60) / 1000
         # Accessing the event if any occurred
     for event in pygame.event.get():    
-        # Checking if quit button is pressed or not
         if event.type == pygame.QUIT:   
-            #  If quit then store true
-            running = False            
-        # Checking if the escape button is pressed or not
-        if event.type == pygame.KEYDOWN:    
-            pass
+            running = False        
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            for plane in planeList:
+                if math.sqrt((event.pos[0] - plane.x)*(event.pos[0] - plane.x) + (event.pos[1] - plane.y)*(event.pos[1] - plane.y)) < 25:
+                    playSound("hit")
+                    plane.health = 0
+                    playSound("exp")
+
+                    if plane.team == "red":
+                        teams["blue"]["score"] += 1
+                    else:
+                        teams["red"]["score"] += 1
+                    
+                    planeList.append(Plane(plane.team))
+
+                    smokeList.append(Smoke(event.pos[0], event.pos[1]))
+
 
      # Transparent backgroundcl
     window_screen.fill((255,0,255))
