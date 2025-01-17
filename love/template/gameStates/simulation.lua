@@ -3,11 +3,10 @@ local function FillBackground()
         gameModeSettings.background = image.background.defaultBlue
     end
 
-    backgroundCanvas = love.graphics.newCanvas()
+    backgroundCanvas = love.graphics.newCanvas(love.graphics.getWidth()/screen.scale, love.graphics.getHeight()/screen.scale)
 
     love.graphics.setCanvas(backgroundCanvas)
-    love.graphics.scale(screen.scale)
-
+    
     for x = 0, 1920, gameModeSettings.background:getWidth() do
         for y = 0, 1080, gameModeSettings.background:getHeight() do
             love.graphics.draw(gameModeSettings.background, x, y)
